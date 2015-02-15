@@ -1,4 +1,5 @@
 module.exports = function(registry) {
+    
     registry.register('assert', [], function() { return require('assert'); });
     registry.register('buffer', [], function() { return require('buffer'); });
     registry.register('child_process', [], function() { return require('child_process'); });
@@ -33,4 +34,5 @@ module.exports = function(registry) {
     registry.register('util', [], function() { return require('util'); });
     registry.register('vm', [], function() { return require('vm'); });
     registry.register('zlib', [], function() { return require('zlib'); });
+
 };

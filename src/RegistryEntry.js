@@ -1,7 +1,11 @@
-var RegistryEntry = function(name, dependencies, factory) {
-    this.name = name;
-    this.dependencies = dependencies;
-    this.factory = factory;
+/**
+ * Creates a new RegistryEntry
+ * @constructor
+ */
+var RegistryEntry = function() {
+    this.name = '';
+    this.dependencies = [];
+    this.factory = null;
 
     this.isResolved = false;
     this.resolvedObject = null;
@@ -10,6 +14,10 @@ var RegistryEntry = function(name, dependencies, factory) {
     this.resolvedCallbacks = [];
 };
 
+/**
+ * register a resolve callback
+ * @param callback
+ */
 RegistryEntry.prototype.onResolve = function(callback) {
     if(typeof (callback) !== 'function') throw new Error("First argument must be a callback function.");
 
@@ -21,6 +29,10 @@ RegistryEntry.prototype.onResolve = function(callback) {
     this.resolvedCallbacks.push(callback);
 };
 
+/**
+ * Resolves this RegistryEntry
+ * @param resolvedObject
+ */
 RegistryEntry.prototype.resolve = function(resolvedObject) {
     if(this.isResolved) throw new Error("RegistryEntry already resolved");
     if(!this.isResolving) throw new Error("RegistryEntry was not resolving");
