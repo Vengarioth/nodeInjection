@@ -6,11 +6,20 @@
     "start": "echo \"Error: this library cannot be executed.\" && exit 1",
     "test": "mocha"
   },
+  "main": "index.js",
   "author": "Andreas Fischer",
   "license": "MIT",
   "dependencies": {
   },
   "devDependencies": {
     "chai": "^2.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Vengarioth/nodeInjection"
+  },
+  "keywords": [
+    "dependency",
+    "injection"
+  ]
 }
