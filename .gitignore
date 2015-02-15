@@ -1,0 +1,47 @@
+# node.js files #
+#################
+lib-cov
+lcov.info
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+build
+.grunt
+
+node_modules
+
+# bower files #
+###############
+public/lib
+
+# config files #
+################
+config.json
+config.js
+
+# IDE files #
+#############
+.idea
+
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test folder #
+###############
+tmp
