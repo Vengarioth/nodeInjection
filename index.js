@@ -2,6 +2,10 @@ var path = require('path'),
     fs = require('fs'),
     Registry = require('./src/registry');
 
+/**
+ * Creates a new NodeInjection instance.
+ * @constructor
+ */
 var NodeInjection = function() {
     this.registry = new Registry();
 
@@ -11,6 +15,12 @@ var NodeInjection = function() {
     this._initialized = false;
 };
 
+/**
+ * private method.
+ * initializes nodeInjection.
+ * @param app
+ * @private
+ */
 NodeInjection.prototype._initialize = function(app) {
     if(typeof (app) !== "object") throw new Error("App must be an object.");
     if(this._initialized) throw new Error("NodeInjection already initialized.");
@@ -22,6 +32,12 @@ NodeInjection.prototype._initialize = function(app) {
     }
 };
 
+/**
+ * private method.
+ * helper used to recursively initialize directories.
+ * @param pathToInitialize
+ * @private
+ */
 NodeInjection.prototype._initializeRecursive = function(pathToInitialize) {
     var that = this;
 
@@ -42,6 +58,10 @@ NodeInjection.prototype._initializeRecursive = function(pathToInitialize) {
     });
 };
 
+/**
+ * Adds a path that NodeInjection should initialize.
+ * @param pathToAdd
+ */
 NodeInjection.prototype.addPath = function(pathToAdd) {
 
     for(var i = 0; i < arguments.length; i++) {
@@ -58,6 +78,11 @@ NodeInjection.prototype.addPath = function(pathToAdd) {
     this._paths.push(pathToAdd);
 };
 
+/**
+ * Compose an array of dependencies.
+ * @param dependencies
+ * @param factory
+ */
 NodeInjection.prototype.compose = function(dependencies, factory) {
     this.registry.resolveMultiple(dependencies, function(resolvedDependencies) {
         factory.apply(null, resolvedDependencies);
