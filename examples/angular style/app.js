@@ -30,6 +30,7 @@ App.prototype.controller = function(factory) {
 
 nodeInjection(function(ni) {
 
+    ni.registry.loadCoreModules();
     ni.addPath(__dirname, "controller");
     ni.addPath(__dirname, "service");
 
