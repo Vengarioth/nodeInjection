@@ -12,6 +12,8 @@ var NodeInjection = function() {
     this._paths = [];
     this._app = null;
 
+    this._useCustomLoader = false;
+
     this._initialized = false;
 };
 
@@ -26,6 +28,10 @@ NodeInjection.prototype._initialize = function(app) {
     if(this._initialized) throw new Error("NodeInjection already initialized.");
 
     this._app = app;
+
+    if(typeof(app.loadFile) === 'function') {
+        this._useCustomLoader = true;
+    }
 
     for(var i = 0; i < this._paths.length; i++) {
         this._initializeRecursive(this._paths[i]);
@@ -51,7 +57,12 @@ NodeInjection.prototype._initializeRecursive = function(pathToInitialize) {
 
             }else if(stat.isFile()) {
                 if (/(.*)\.(js$|coffee$)/.test(file)) {
-                    require(newPath)(that._app);
+
+                    if(that._useCustomLoader) {
+                        that._app.loadFile(newPath);
+                    }else{
+                        require(newPath)(that._app);
+                    }
                 }
             }
         });
