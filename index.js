@@ -98,7 +98,11 @@ NodeInjection.prototype.addPath = function(pathToAdd) {
  */
 NodeInjection.prototype.compose = function(dependencies, factory) {
     this.registry.resolveMultiple(dependencies, function(resolvedDependencies) {
-        factory.apply(null, resolvedDependencies);
+        try{
+            factory.apply(null, resolvedDependencies);
+        }catch (e) {
+            throw new Error("Composition factory threw an Error.", e);
+        }
     });
 };
 
