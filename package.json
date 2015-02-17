@@ -1,6 +1,6 @@
 {
   "name": "nodeinjection",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A node.js framework to help you build your own dependency injection framework. It is leaned towards angularjs' dependency injection style.",
   "scripts": {
     "start": "echo \"Error: this library cannot be executed.\" && exit 1",
