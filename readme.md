@@ -74,11 +74,12 @@ App.prototype.service = function(name, dependency, factory) {
  * @param {function} factory
  */
 App.prototype.controller = function(dependency, factory) {
-    if(typeof (arguments[arguments.length - 1]) !== 'function') {
+    var dependencies = Array.prototype.splice.call(arguments, 0, arguments.length - 1);
+    factory = arguments[arguments.length - 1];
+    if(typeof (factory) !== 'function') {
         throw new Error("Last parameter must be a factory function");
     }
 
-    var dependencies = Array.prototype.splice.call(arguments, 0, arguments.length - 1);
     this._ni.compose(dependencies, factory);
 };
 
