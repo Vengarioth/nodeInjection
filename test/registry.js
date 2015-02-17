@@ -40,6 +40,63 @@ describe("Registry", function(){
 
     });
 
+    it("to resolve multiple dependencies", function() {
+        var registry = new Registry();
+
+        var objectA = {foo: "bar"};
+        var objectB = {bar: "foo"};
+        var objectC = {foobar: "barfoo"};
+
+        registry.register("objectA", [], function() {
+            return objectA;
+        });
+
+        registry.register("objectB", [], function() {
+            return objectB;
+        });
+
+        registry.register("objectC", ["objectA", "objectB"], function(a, b) {
+            objectC.a = a;
+            objectC.b = b;
+            return objectC;
+        });
+
+        registry.resolve("objectC", function(c) {
+            expect(c).to.equal(objectC);
+            expect(c.a).to.equal(objectA);
+            expect(c.b).to.equal(objectB);
+        });
+    });
+
+    it("to resolve multiple unordered dependencies", function() {
+        var registry = new Registry();
+
+        var objectA = {foo: "bar"};
+        var objectB = {bar: "foo"};
+        var objectC = {foobar: "barfoo"};
+
+
+        registry.register("objectC", ["objectA", "objectB"], function(a, b) {
+            objectC.a = a;
+            objectC.b = b;
+            return objectC;
+        });
+
+        registry.register("objectA", [], function() {
+            return objectA;
+        });
+
+        registry.register("objectB", [], function() {
+            return objectB;
+        });
+
+        registry.resolve("objectC", function(c) {
+            expect(c).to.equal(objectC);
+            expect(c.a).to.equal(objectA);
+            expect(c.b).to.equal(objectB);
+        });
+    });
+
     it("to resolve unordered dependant factory callbacks", function(done) {
         var registry = new Registry();
 
