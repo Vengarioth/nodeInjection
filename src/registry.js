@@ -86,15 +86,31 @@ Registry.prototype.resolveMultiple = function(names, callback) {
 };
 
 Registry.prototype._resolveEntry = function(entry) {
-
     entry.isResolving = true;
 
     if(entry.dependencies.length < 1) {
-        var resolvedObject = entry.factory();
+
+        try {
+            var resolvedObject = entry.factory();
+        }catch (e) {
+            throw new Error("execution of factory \"" + entry.name + "\" threw an Error.", e);
+        }
+
+        if(typeof(resolvedObject) === 'undefined' || resolvedObject === null)
+            throw new Error("factory \"" + entry.name + "\" returned null or undefined.");
+
         entry.resolve(resolvedObject);
     }else{
         this.resolveMultiple(entry.dependencies, function(resolvedDependencies) {
-            var resolvedObject = entry.factory.apply(null, resolvedDependencies);
+            try {
+                var resolvedObject = entry.factory.apply(null, resolvedDependencies);
+            }catch (e) {
+                throw new Error("execution of factory \"" + entry.name + "\" threw an Error.", e);
+            }
+
+            if(typeof(resolvedObject) === 'undefined' || resolvedObject === null)
+                throw new Error("factory \"" + entry.name + "\" returned null or undefined.");
+
             entry.resolve(resolvedObject);
         });
     }
