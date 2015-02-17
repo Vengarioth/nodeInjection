@@ -86,6 +86,8 @@ NodeInjection.prototype.addPath = function(pathToAdd) {
 
     if(this._paths.indexOf(pathToAdd) >= 0) throw new Error("The resulting path " + pathToAdd + " has already been added.");
 
+    if(!fs.existsSync(pathToAdd)) throw new Error("The resulting path " + pathToAdd +  " is no valid path.");
+
     this._paths.push(pathToAdd);
 };
 
