@@ -46,27 +46,23 @@ Registry.prototype.resolve = function(name, callback) {
     if(typeof (callback) !== 'function') throw new Error("Second argument must be a callback function.");
 
     var entry = this._map[name];
-
     if(!entry) {
         entry = new RegistryEntry();
         entry.name = name;
-        entry.onResolve(callback);
         this._map[name] = entry;
+    }
+
+    if(!entry.isResolved) {
+
+        if(!entry.isResolving && entry.factory) {
+            this._resolveEntry(entry);
+        }
+
+        entry.onResolve(callback);
         return;
     }
 
-    if(entry.isResolved) {
-        callback(entry.resolvedObject, entry);
-        return;
-    }
-
-    entry.onResolve(callback);
-
-    if(entry.isResolving) {
-        return;
-    }
-
-    this._resolveEntry(entry);
+    callback(entry.resolvedObject, entry);
 };
 
 Registry.prototype.resolveMultiple = function(names, callback) {

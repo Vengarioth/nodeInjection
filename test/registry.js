@@ -120,6 +120,33 @@ describe("Registry", function(){
 
     });
 
+    it("to resolve multiple identical signature dependencies", function(done) {
+        var registry = new Registry();
+        var objectA = {foo: "bar"};
+
+        var resolved = 0;
+
+        registry.resolve("objectA", function(a) {
+            expect(a).to.equal(objectA);
+            resolved++;
+            if(resolved == 2) {
+                done();
+            }
+        });
+
+        registry.resolve("objectA", function(a) {
+            expect(a).to.equal(objectA);
+            resolved++;
+            if(resolved == 2) {
+                done();
+            }
+        });
+
+        registry.register("objectA", [], function() {
+            return objectA;
+        });
+    });
+
     describe("#register()", function(){
         it("throw errors on wrong parameters", function() {
             var registry = new Registry();
